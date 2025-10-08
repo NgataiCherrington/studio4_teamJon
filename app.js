@@ -1,6 +1,7 @@
 // Import the Express module and other modules
 import express from "express";
 import indexRoutes from "./routes/index.js";
+import userRoutes from "./routes/user.js";
 import { isContentTypeApplicationJSON } from "./middleware/utils.js";
 
 // Create an Express application
@@ -9,6 +10,7 @@ const app = express();
 // Use the PORT environment variable or 3000
 const PORT = process.env.PORT || 3000;
 
+app.use("/api/users", userRoutes);
 app.use("/", indexRoutes);
 app.use(isContentTypeApplicationJSON);
 
