@@ -1,4 +1,4 @@
-import prisma from "../prisma/client";
+import prisma from "../prisma/client.js";
 
 const createUser = async (req, res) => {
     try {
@@ -9,6 +9,7 @@ const createUser = async (req, res) => {
                 phoneNumber: req.body.phoneNumber,
                 dob: req.body.dob,
                 email: req.body.email,
+                password: req.body.password,
                 role: req.body.role,
             },
         });
@@ -25,3 +26,5 @@ const createUser = async (req, res) => {
         });
     }
 };
+
+export { createUser };
