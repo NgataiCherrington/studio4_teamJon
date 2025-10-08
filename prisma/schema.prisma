@@ -22,8 +22,11 @@ model User {
   id          String      @id @default(uuid())
   firstName   String
   lastName    String
-  phoneNumber String      @unique
+  phoneNumber String      
   dob         String
-  email       String
+  email       String 
+  password    String
   role        Role        @default(NORMAL)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
