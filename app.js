@@ -1,6 +1,7 @@
 // Import the Express module and other modules
 import express from "express";
 import indexRoutes from "./routes/index.js";
+import { isContentTypeApplicationJSON } from "./middleware/utils.js";
 
 // Create an Express application
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use("/", indexRoutes);
+app.use(isContentTypeApplicationJSON);
 
 // Start the server on port 3000
 app.listen(PORT, () => {
