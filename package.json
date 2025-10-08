@@ -1,10 +1,12 @@
 {
+  "type": "module",
   "name": "introappdev-assignment-chernj1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
     "env:copy": "cp .env.example env || copy .env.example .env",
     "docker:run:dev": " docker run --name chernj1-assignment-api -e POSTGRES_PASSWORD=HelloWorld123 -p 5432:5432 -d postgres",
     "prisma:migrate": "npx prisma migrate dev",
@@ -14,8 +16,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.16.2",
-    "express": "^5.1.0"
+    "@prisma/client": "^6.17.0",
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
