@@ -10,6 +10,8 @@ const app = express();
 // Use the PORT environment variable or 3000
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+
 app.use("/api/users", userRoutes);
 app.use("/", indexRoutes);
 app.use(isContentTypeApplicationJSON);
