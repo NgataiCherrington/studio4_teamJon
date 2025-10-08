@@ -7,10 +7,10 @@ const register = async (req, res) => {
   try {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const emailAddress = req.body.emailAddress;
+    const email = req.body.email;
     const password = req.body.password;
     const phoneNumber = req.body.phoneNumber;
-    const dateOfBirth = new Date(req.body.dateOfBirth);
+    const dob = req.body.dob;
     const role = req.body.role;
 
     // Check if user already exists by email address
