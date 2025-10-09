@@ -24,7 +24,7 @@ model User {
   lastName    String
   phoneNumber String
   dob         String
-  email       String
+  email       String @unique
   password    String
   role        Role       @default(NORMAL)
   createdAt   DateTime   @default(now())
