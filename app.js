@@ -7,6 +7,7 @@ import indexRoutes from "./routes/index.js";
 import userRoutes from "./routes/user.js";
 import wellnessRoutes from "./routes/wellness.js"
 import teamRoutes from "./routes/team.js";
+import injuryRoutes from "./routes/injury.js";
 
 // Import middleware
 import { isContentTypeApplicationJSON } from "./middleware/utils.js";
@@ -24,6 +25,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/wellness", wellnessRoutes);
 app.use("/api/teams", teamRoutes);
+app.use("/api/injuries", injuryRoutes);
 app.use("/", indexRoutes);
 
 // Start the server on port 3000
