@@ -1,7 +1,9 @@
 // Import the Express module and other modules
 import express from "express";
+import authRoutes from "./routes/auth.js";
 import indexRoutes from "./routes/index.js";
 import userRoutes from "./routes/user.js";
+import wellnessRoutes from "./routes/wellness.js"
 import { isContentTypeApplicationJSON } from "./middleware/utils.js";
 
 // Create an Express application
@@ -11,10 +13,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-
-app.use("/api/users", userRoutes);
-app.use("/", indexRoutes);
 app.use(isContentTypeApplicationJSON);
+
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/wellness", wellnessRoutes);
+app.use("/", indexRoutes);
 
 // Start the server on port 3000
 app.listen(PORT, () => {
