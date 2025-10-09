@@ -15,7 +15,7 @@ const register = async (req, res) => {
 
     // Check if user already exists by email address
     let user = await prisma.user.findUnique({
-      where: { emailAddress },
+      where: { email },
     });
 
     if (user) {
@@ -33,8 +33,8 @@ const register = async (req, res) => {
       data: {
         firstName,
         lastName,
-        emailAddress,
-        dateOfBirth,
+        email,
+        dob,
         phoneNumber,
         password: hashedPassword,
         role,
@@ -43,8 +43,8 @@ const register = async (req, res) => {
         id: true,
         firstName: true,
         lastName: true,
-        emailAddress: true,
-        dateOfBirth: true,
+        email: true,
+        dob: true,
         phoneNumber: true,
         role: true,
         createdAt: true,
@@ -65,40 +65,42 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const emailAddress = req.body.emailAddress;
+    const email = req.body.email;
     const password = req.body.password;
 
-    // Find user by email
-    const user = await prisma.user.findUnique({
-      where: { emailAddress },
-    });
+    // Find user by email address
+    const user = await prisma.user.findUnique({ where: { email } });
+
     if (!user) {
-      return res.status(400).json({ message: "Invalid email address" });
+      return res.status(401).json({ message: "Invalid email address" });
     }
 
     // Compare the provided password with the hashed password in the database
-    const isPassword = await bcryptjs.compare(password, user.password);
-    if (!isPassword) {
-      return res.status(400).json({ message: "Invalid password" });
+    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: "Invalid password" });
     }
 
     const { JWT_SECRET, JWT_LIFETIME } = process.env;
 
+    // Create a JWT token with the user's ID, role and email address
     const token = jwt.sign(
       {
         id: user.id,
         role: user.role,
-        emailAddress: user.emailAddress,
+        email: user.email,
       },
       JWT_SECRET,
       { expiresIn: JWT_LIFETIME }
     );
 
     return res.status(200).json({
-      message: err.message,
+      message: "User successfully logged in",
+      token: token,
     });
   } catch (err) {
-    return res.status(500)({
+    return res.status(500).json({
       message: err.message,
     });
   }
