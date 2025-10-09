@@ -1,9 +1,14 @@
-// Import the Express module and other modules
+// Import the Express module
 import express from "express";
+
+// Import routes
 import authRoutes from "./routes/auth.js";
 import indexRoutes from "./routes/index.js";
 import userRoutes from "./routes/user.js";
 import wellnessRoutes from "./routes/wellness.js"
+import teamRoutes from "./routes/team.js";
+
+// Import middleware
 import { isContentTypeApplicationJSON } from "./middleware/utils.js";
 
 // Create an Express application
@@ -18,6 +23,7 @@ app.use(isContentTypeApplicationJSON);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/wellness", wellnessRoutes);
+app.use("/api/teams", teamRoutes);
 app.use("/", indexRoutes);
 
 // Start the server on port 3000
