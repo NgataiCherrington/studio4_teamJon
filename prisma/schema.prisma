@@ -19,14 +19,27 @@ enum Role {
 }
 
 model User {
-  id          String      @id @default(uuid())
+  id          String     @id @default(uuid())
   firstName   String
   lastName    String
-  phoneNumber String      
+  phoneNumber String
   dob         String
-  email       String 
+  email       String
   password    String
-  role        Role        @default(NORMAL)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  role        Role       @default(NORMAL)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Wellness    Wellness[]
+}
+
+model Wellness {
+  id             String   @id @default(uuid())
+  sleep          Int
+  stress         Int
+  fatigue        Int
+  muscleSoreness Int
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
