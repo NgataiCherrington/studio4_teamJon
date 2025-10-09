@@ -31,6 +31,7 @@ model User {
   updatedAt   DateTime   @updatedAt
   Wellness    Wellness[]
   Team        Team[]
+  Injury      Injury[]
 }
 
 model Wellness {
@@ -46,8 +47,21 @@ model Wellness {
 }
 
 model Team {
-  id       String @id @default(uuid())
-  teamName String
-  userId   String
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id        String   @id @default(uuid())
+  teamName  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Injury {
+  id           String   @id @default(uuid())
+  injuryCode   String
+  timeOfInjury DateTime
+  description  String
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
