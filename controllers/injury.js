@@ -120,4 +120,4 @@ const deleteInjury = async (req, res) => {
     }
 };
 
-export { createInjury. getInjuries, getInjuryID, updateInjury, deleteInjury };
+export { createInjury, getInjuries, getInjuryID, updateInjury, deleteInjury };
