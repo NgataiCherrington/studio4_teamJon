@@ -89,7 +89,7 @@ const updateWellness = async (req, res) => {
         });
 
         return res.status(200).json({
-            message: `Wellness data with id: ${req.params.id} found`,
+            message: `Wellness data with id: ${req.params.id} successfully updated`,
             data: wellness,
         });
     } catch(err) {
