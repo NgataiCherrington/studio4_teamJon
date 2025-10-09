@@ -8,14 +8,14 @@ import {
     deleteInjury,
 } from "../controllers/injury.js";
 
-import jwtAuth from "../middleware/jwtauth.js";
-
 const router = express.Router();
 
-router.post("/", createInjury);
+import jwtAuth from "../middleware/jwtauth.js";
+
+router.post("/", jwtAuth, createInjury);
 router.get("/", getInjuries);
 router.get("/:id", getInjuryID);
-router.update("/:id", updateInjury);
+router.put("/:id", updateInjury);
 router.delete("/:id", deleteInjury);
 
 export default router;
