@@ -8,14 +8,19 @@ import {
     deleteTeam,
 } from "../controllers/team.js";
 
+import {
+    validatePostTeam,
+    validatePutTeam,
+} from "../middleware/validation/team.js";
+
 const router = express.Router();
 
 import jwtAuth from "../middleware/jwtauth.js";
 
-router.post("/", jwtAuth, createTeam);
+router.post("/", validatePostTeam, jwtAuth, createTeam);
 router.get("/", getTeams);
 router.get("/:id", getTeamID);
-router.put("/:id", updateTeam);
+router.put("/:id", validatePutTeam, updateTeam);
 router.delete("/:id", deleteTeam);
 
 export default router;
