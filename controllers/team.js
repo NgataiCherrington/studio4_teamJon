@@ -1,15 +1,10 @@
 import prisma from "../prisma/client.js";
+import teamRepository from "../repositories/team.js";
 
 const createTeam = async (req, res) => {
   try {
-    await prisma.team.create({
-      data: {
-        teamName: req.body.teamName,
-        userId: req.user.id,
-      },
-    });
-    const newTeam = await prisma.team.findMany();
-
+    await teamRepository.create(req.body);
+    const newTeam = await teamRepository.findAll();
     return res.status(201).json({
       message: "Team created successfully",
       data: newTeam,
@@ -23,14 +18,12 @@ const createTeam = async (req, res) => {
 
 const getTeams = async (req, res) => {
   try {
-    const teams = await prisma.team.findMany();
-
+    const teams = await teamRepository.findAll();
     if (!teams) {
       return res.status(404).json({
         message: "No teams found",
       });
     }
-
     return res.status(200).json({
       data: teams,
     });
@@ -43,16 +36,12 @@ const getTeams = async (req, res) => {
 
 const getTeamID = async (req, res) => {
   try {
-    const team = await prisma.team.findUnique({
-      where: { id: req.params.id },
-    });
-
+    const team = await teamRepository.findById(req.params.id);
     if (!team) {
       return res.status(404).json({
         message: `No team with id: ${req.params.id} found`,
       });
     }
-
     return res.status(200).json({
       data: team,
     });
@@ -65,23 +54,13 @@ const getTeamID = async (req, res) => {
 
 const updateTeam = async (req, res) => {
   try {
-    let team = await prisma.team.findUnique({
-      where: { id: req.params.id },
-    });
-
+    let team = await teamRepository.findById(req.params.id);
     if (!team) {
       return res.status(404).json({
         message: `No team with id: ${req.params.id} found`,
       });
     }
-
-    team = await prisma.team.update({
-      where: { id: req.params.id },
-      data: {
-        teamName: req.body.teamName,
-      },
-    });
-
+    team = await teamRepository.update(req.params.id, req.body);
     return res.status(200).json({
       message: `Team with id: ${req.params.id} successfully updated`,
     });
@@ -94,20 +73,13 @@ const updateTeam = async (req, res) => {
 
 const deleteTeam = async (req, res) => {
   try {
-    const team = await prisma.team.findUnique({
-      where: { id: req.params.id },
-    });
-
+    const team = await teamRepository.findById(req.params.id);
     if (!team) {
       return res.status(404).json({
         message: `Team with id: ${req.params.id} not found`,
       });
     }
-
-    await prisma.team.delete({
-      where: { id: req.params.id },
-    });
-
+    await teamRepository.delete(req.params.id);
     return res.status(200).json({
       message: `Team with id: ${req.params.id} successfully deleted`,
     });
