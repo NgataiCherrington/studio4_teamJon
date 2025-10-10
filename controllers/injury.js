@@ -1,18 +1,10 @@
 import prisma from "../prisma/client.js";
+import injuryRepository from "../repositories/injury.js";
 
 const createInjury = async (req, res) => {
   try {
-    await prisma.injury.create({
-      data: {
-        injuryCode: req.body.injuryCode,
-        timeOfInjury: req.body.timeOfInjury,
-        description: req.body.description,
-        userId: req.user.id,
-      },
-    });
-
-    const newInjury = await prisma.injury.findMany();
-
+    await injuryRepository.create(req.body);
+    const newInjury = await injuryRepository.findAll();
     return res.status(201).json({
       message: "Injury data created successfully",
       data: newInjury,
@@ -26,14 +18,12 @@ const createInjury = async (req, res) => {
 
 const getInjuries = async (req, res) => {
   try {
-    const injuries = await prisma.injury.findMany();
-
+    const injuries = await injuryRepository.findAll();
     if (!injuries) {
       return res.status(404).json({
         message: "No teams found",
       });
     }
-
     return res.status(200).json({
       data: injuries,
     });
@@ -46,16 +36,12 @@ const getInjuries = async (req, res) => {
 
 const getInjuryID = async (req, res) => {
   try {
-    const injury = await prisma.injury.findUnique({
-      where: { id: req.params.id },
-    });
-
+    const injury = await injuryRepository.findById(req.params.id);
     if (!injury) {
       return res.status(404).json({
         message: `No injury with id: ${req.params.id} found`,
       });
     }
-
     return res.status(200).json({
       data: injury,
     });
@@ -68,25 +54,13 @@ const getInjuryID = async (req, res) => {
 
 const updateInjury = async (req, res) => {
   try {
-    let injury = await prisma.injury.findUnique({
-      where: { id: req.params.id },
-    });
-
+    let injury = await injuryRepository.findById(req.params.id);
     if (!injury) {
       return res.status(404).json({
         message: `No injury with id: ${req.params.id} found`,
       });
     }
-
-    await prisma.injury.update({
-      where: { id: req.params.id },
-      data: {
-        injuryCode: req.body.injuryCode,
-        timeOfInjury: req.body.timeOfInjury,
-        description: req.body.description,
-      },
-    });
-
+    injury = injuryRepository.update(req.params.id, req.body);
     return res.status(200).json({
       message: `Injury data with id: ${req.params.id} successfully updated`,
     });
@@ -99,20 +73,13 @@ const updateInjury = async (req, res) => {
 
 const deleteInjury = async (req, res) => {
   try {
-    const injury = await prisma.injury.findUnique({
-      where: { id: req.params.id },
-    });
-
+    const injury = await injuryRepository.findById(req.params.id);
     if (!injury) {
       return res.status(404).json({
         message: `No injury with id: ${req.params.id} found`,
       });
     }
-
-    await prisma.injury.delete({
-      where: { id: req.params.id },
-    });
-
+    await injuryRepository.delete(req.params.id);
     return res.status(200).json({
       message: `Injury with id: ${req.params.id} successfully deleted`,
     });
