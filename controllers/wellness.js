@@ -1,18 +1,10 @@
 import prisma from "../prisma/client.js";
+import wellnessRepository from "../repositories/wellness.js";
 
 const createWellness = async (req, res) => {
     try {
-        await prisma.wellness.create({
-            data: {
-                sleep: req.body.sleep,
-                stress: req.body.stress,
-                fatigue: req.body.fatigue,
-                muscleSoreness: req.body.muscleSoreness,
-                userId: req.user.id
-            }
-        })
-        const newWellness = await prisma.wellness.findMany();
-    
+        await wellnessRepository.create(req.body);
+        const newWellness = await wellnessRepository.findAll();
         return res.status(201).json({
             message: "Wellness data created successfully",
             data: newWellness,
@@ -26,14 +18,12 @@ const createWellness = async (req, res) => {
 
 const getWellness = async (req, res) => {
     try {
-        const wellness = await prisma.wellness.findMany();
-
+        const wellness = await wellnessRepository.findAll();
         if(!wellness) {
             return res.status(404).json({
                 message: "No wellness data found",
             });
         }
-
         return res.status(200).json({
             data: wellness,
         });
@@ -46,16 +36,12 @@ const getWellness = async (req, res) => {
 
 const getWellnessID = async (req, res) => {
     try {
-        const wellness = await prisma.wellness.findUnique({
-            where: { id: req.params.id },
-        });
-
+        const wellness = await wellnessRepository.findById(req.params.id);
         if(!wellness) {
             return res.status(404).json({
                 message: `No wellness data with id: ${req.params.id} found`,
             });
         }
-
         return res.status(200).json({
             data: wellness,
         });
@@ -68,26 +54,13 @@ const getWellnessID = async (req, res) => {
 
 const updateWellness = async (req, res) => {
     try {
-        let wellness = await prisma.wellness.findUnique({
-            where: { id: req.params.id },
-        });
-
+        let wellness = await wellnessRepository.findById(req.params.id);
         if(!wellness) {
             return res.status(404).json({
                 message: `No wellness data with id: ${req.params.id} found`,
             });
         }
-
-        wellness = prisma.wellness.update({
-            where: { id: req.params.id },
-            data: {
-                sleep: req.body.sleep,
-                stress: req.body.stress,
-                fatigue: req.body.fatigue,
-                muscleSoreness: req.body.muscleSoreness,
-            }
-        });
-
+        wellness = wellnessRepository.update(req.params.id, req.body);
         return res.status(200).json({
             message: `Wellness data with id: ${req.params.id} successfully updated`,
             data: wellness,
@@ -101,20 +74,13 @@ const updateWellness = async (req, res) => {
 
 const deleteWellness = async (req, res) => {
     try {
-        const wellness = await prisma.wellness.findUnique({
-            where: { id: req.params.id },
-        });
-
+        const wellness = await wellnessRepository.findById(req.params.id);
         if(!wellness) {
             return res.status(404).json({
                 message: `Wellness data with id: ${req.params.id} not found`,
             });
         }
-
-        await prisma.wellness.delete({
-            where: { id: req.params.id },
-        })
-
+        await wellnessRepository.delete(req.params.id);
         return res.status(200).json({
             message: `Wellness data with id: ${req.params.id} successfully deleted`,
         });
