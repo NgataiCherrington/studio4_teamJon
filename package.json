@@ -10,7 +10,9 @@
     "env:copy": "cp .env.example env || copy .env.example .env",
     "docker:run:dev": " docker run --name chernj1-assignment-api -e POSTGRES_PASSWORD=HelloWorld123 -p 5432:5432 -d postgres",
     "prisma:migrate": "npx prisma migrate dev",
-    "prisma:reset": "npx prisma migrate reset --force"
+    "prisma:reset": "npx prisma migrate reset --force",
+    "setup:env": "copy .env.example .env"
+
   },
   "keywords": [],
   "author": "",
