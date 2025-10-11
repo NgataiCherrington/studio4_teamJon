@@ -18,7 +18,47 @@ const createUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await userRepository.findAll();
+    // Deconstruct query parameters with default values for filtering and pagination
+    const {
+      firstName,
+      lastName,
+      phoneNumber,
+      dob,
+      email,
+      sortBy = "id",
+      sortOrder = "asc",
+      page = 1,
+      pageSize = 10,
+    } = req.query;
+
+    // Build a filters object based on query parameters
+    const filters = {};
+    if (firstName) filters.firstName = firstName;
+    if(lastName) filters.lastName = lastName;
+    if (phoneNumber) filters.phoneNumber = phoneNumber;
+    if (dob) filters.dob = dob;
+    if (email) filters.email = email;
+
+    // Validate and normalize sort order, Default to 'asc' if invalid
+    const validSortOrders = ["asc", "desc"];
+    const order = validSortOrders.includes(sortOrder.toLowerCase())
+      ? sortOrder.toLowerCase()
+      : "asc";
+
+    // Validate and normalize sort field, Default to 'id' if invalid
+    const validSortFields = ["id", "firstName", "lastName", "phoneNumber", "dob", "email"];
+    const fields = validSortFields.includes(sortBy.toLowerCase())
+      ? sortBy.toLowerCase()
+      : "id";
+
+    const users = await userRepository.findAll(
+      filters,
+      fields,
+      order,
+      page,
+      pageSize
+    );
+
     if (!users) {
       return res.status(404).json({ message: "No users found" });
     }
