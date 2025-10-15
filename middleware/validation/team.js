@@ -8,7 +8,12 @@ const validatePostTeam = (req, res, next) => {
             "string.min": "teamName should have a minimum length of {#limit}",
             "string.max": "teamName should have a maximum  length of {#limit}",
             "any.required": "teamName is required"
-        }),   
+        }),
+        userId: Joi.string().uuid().required().messages({
+              "string.base": "userId should be a string",
+              "string.empty": "userId cannot be empty",
+              "any.required": "userId is required",
+            }), 
     });
 
     const { error } = teamSchema.validate(req.body, {
@@ -36,6 +41,11 @@ const validatePutTeam = (req, res, next) => {
             "string.max": "teamName should have a maximum  length of {#limit}",
             "any.required": "teamName is required"
         }),
+        userId: Joi.string().uuid().required().messages({
+              "string.base": "userId should be a string",
+              "string.empty": "userId cannot be empty",
+              "any.required": "userId is required",
+            }),
     }).min(1);
 
     const { error } = teamSchema.validate(req.body, {
