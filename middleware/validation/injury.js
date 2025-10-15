@@ -22,11 +22,11 @@ const validatePostInjury = (req, res, next) => {
             "string.max": "description should have a maximum  length of {#limit}",
             "any.required": "description is required"
         }),
-        user: Joi.object({
-                connect: Joi.object({
-                    id: Joi.string().uuid().required(),
-                }).required()
-            }).required()
+        userId: Joi.string().uuid().required().messages({
+              "string.base": "userId should be a string",
+              "string.empty": "userId cannot be empty",
+              "any.required": "userId is required",
+            })
     });
 
     const { error } = injurySchema.validate(req.body, {
@@ -67,11 +67,11 @@ const validatePutInjury = (req, res, next) => {
             "string.max": "description should have a maximum  length of {#limit}",
             "any.required": "description is required"
         }),
-        user: Joi.object({
-                connect: Joi.object({
-                    id: Joi.string().uuid().required(),
-                }).required()
-            }).required()
+        userId: Joi.string().uuid().required().messages({
+              "string.base": "userId should be a string",
+              "string.empty": "userId cannot be empty",
+              "any.required": "userId is required",
+            })
     }).min(1);
 
     const { error } = injurySchema.validate(req.body, {
