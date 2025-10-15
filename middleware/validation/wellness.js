@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const validatePostWellness = (req, res, next) => {
-    const userSchema = Joi.object({
+    const wellnessSchema = Joi.object({
         sleep: Joi.number().integer().min(0).max(24).required().messages({
             "number.base": "sleep should be a integer",
             "number.empty": "sleep cannot be empty",
@@ -30,6 +30,11 @@ const validatePostWellness = (req, res, next) => {
             "number.max": "muscleSoreness should have a maximum  length of {#limit}",
             "any.required": "muscleSoreness is required"
         }),
+        user: Joi.object({
+                        connect: Joi.object({
+                            id: Joi.string().uuid().required(),
+                        }).required()
+                    }).required()
     });
 
     const { error } = wellnessSchema.validate(req.body, {
@@ -78,6 +83,11 @@ const validatePutWellness = (req, res, next) => {
             "number.max": "muscleSoreness should have a maximum  length of {#limit}",
             "any.required": "muscleSoreness is required"
         }),
+        user: Joi.object({
+                        connect: Joi.object({
+                            id: Joi.string().uuid().required(),
+                        }).required()
+                    }).required()
     }).min(1);
 
     const { error } = wellnessSchema.validate(req.body, {
