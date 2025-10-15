@@ -46,7 +46,7 @@ const validatePostInjury = (req, res, next) => {
 }
 
 const validatePutInjury = (req, res, next) => {
-    const userSchema = Joi.object({
+    const injurySchema = Joi.object({
         injuryCode: Joi.string().min(3).max(100).required().messages({
             "string.base": "injuryCode should be a string",
             "string.empty": "injuryCode cannot be empty",
