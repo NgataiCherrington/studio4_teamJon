@@ -51,7 +51,7 @@ class UserRepository {
         const users = await prisma.user.findMany(query);
 
         return {
-          data: user,
+          data: users,
           pagination: {
             current: page,
             pageSize,
