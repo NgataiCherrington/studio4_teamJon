@@ -18,7 +18,39 @@ const createTeam = async (req, res) => {
 
 const getTeams = async (req, res) => {
   try {
-    const teams = await teamRepository.findAll();
+    // Deconstruct query parameters with default values for filtering and pagination
+    const {
+      teamName,
+      sortBy = "id",
+      sortOrder = "asc",
+      page = 1,
+      pageSize = 10,
+    } = req.query;
+
+    // Build a filters object based on query parameters
+    const filters = {};
+    if (teamName) filters.teamName = teamName;
+
+    // Validate and normalize sort order, Default to 'asc' if invalid
+    const validSortOrders = ["asc", "desc"];
+    const order = validSortOrders.includes(sortOrder.toLowerCase())
+      ? sortOrder.toLowerCase()
+      : "asc";
+
+    // Validate and normalize sort field, Default to 'id' if invalid
+    const validSortFields = ["id", "teamName"];
+    const fields = validSortFields.includes(sortBy.toLowerCase())
+      ? sortBy.toLowerCase()
+      : "id";
+
+    const teams = await teamRepository.findAll(
+      filters,
+      fields,
+      order,
+      page,
+      pageSize
+    );
+    // const teams = await teamRepository.findAll();
     if (!teams) {
       return res.status(404).json({
         message: "No teams found",
