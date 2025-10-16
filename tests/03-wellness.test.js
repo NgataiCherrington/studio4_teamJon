@@ -14,7 +14,7 @@ describe("Wellness CRUD", () => {
   });
 
   it("should create wellness one", async () => {
-    const res = (await request(app).post("/api/wellness"))
+    const res = await request(app).post("/api/wellness")
       .set("Authorization", `Bearer ${token}`)
       .send({
         sleep: 8,
@@ -28,11 +28,11 @@ describe("Wellness CRUD", () => {
       const newWellness = res.body.data.find(
         (wellness) => wellness.sleep === "8"
       );
-      wellnessOneId = newWellness.sleep;
+      wellnessOneId = newWellness.id;
   });
 
   it("should create wellness two", async () => {
-    const res = (await request(app).post("/api/wellness"))
+    const res = await request(app).post("/api/wellness")
       .set("Authorization", `Bearer ${token}`)
       .send({
         sleep: 6,
@@ -46,6 +46,10 @@ describe("Wellness CRUD", () => {
       const newWellness = res.body.data.find(
         (wellness) => wellness.sleep === "6"
       );
-      wellnessTwoId = newWellness.sleep;
+      wellnessTwoId = newWellness.id;
+  });
+
+  after(() => {
+    global.testWellnessId = wellnessTwoId;
   });
 });
