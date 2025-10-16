@@ -2,11 +2,13 @@ import request from "supertest";
 import app from "../../app.js";
 import prisma from "../../prisma/client.js";
 
-export const setupAuthTest = async () => {
-    await prisma.user.delete(id);
-    await prisma.wellness.delete();
+console.log("AUTH.JS LOADED"); // ← Add this line
 
-    (await request(app).post("/api/auth/register")).setEncoding({
+export const setupAuthTest = async () => {
+    await prisma.user.deleteMany();
+    await prisma.wellness.deleteMany();
+
+    await request(app).post("/api/auth/register").send({
         firstName: "Ngatai",
         lastName: "Cherrington",
         email: "ngataijc02@gmail.com",
@@ -14,7 +16,7 @@ export const setupAuthTest = async () => {
         role: "ADMIN",
     });
 
-    const res = (await request(app).post("/api/auth/login")).setEncoding({
+    const res = await request(app).post("/api/auth/login").send({
         email: "ngataijc02@gmail.com",
         password: "janedoe123",
     });
