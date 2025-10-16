@@ -17,10 +17,10 @@ const router = express.Router();
 
 import jwtAuth from "../middleware/jwtauth.js";
 
-router.post("/", validatePostInjury, jwtAuth, createInjury);
-router.get("/", getInjuries);
-router.get("/:id", getInjuryID);
-router.put("/:id", validatePutInjury, updateInjury);
-router.delete("/:id", deleteInjury);
+router.post("/", validatePostInjury, jwtAuth, rbac("ADMIN"), createInjury);
+router.get("/", getInjuries, rbac("ADMIN"));
+router.get("/:id", getInjuryID, rbac("ADMIN"));
+router.put("/:id", validatePutInjury, rbac("ADMIN"), updateInjury);
+router.delete("/:id", deleteInjury, rbac("ADMIN"));
 
 export default router;
