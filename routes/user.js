@@ -19,6 +19,6 @@ router.post("/", validatePostUser, createUser);
 router.get("/", getUsers);
 router.get("/:id", getUserID);
 router.put("/:id", validatePutUser, updateUser);
-router.delete("/:id", deleteUser);
+router.delete("/:id", deleteUser, rbac("ADMIN"));
 
 export default router;
