@@ -17,10 +17,10 @@ const router = express.Router();
 
 import jwtAuth from "../middleware/jwtauth.js";
 
-router.post("/", validatePostTeam, jwtAuth, createTeam);
+router.post("/", validatePostTeam, jwtAuth, rbac("ADMIN"), createTeam);
 router.get("/", getTeams);
 router.get("/:id", getTeamID);
-router.put("/:id", validatePutTeam, updateTeam);
-router.delete("/:id", deleteTeam);
+router.put("/:id", validatePutTeam, updateTeam, rbac("ADMIN"));
+router.delete("/:id", deleteTeam, rbac("ADMIN"));
 
 export default router;
