@@ -14,6 +14,7 @@ import {
 } from "../middleware/validation/user.js"
 
 const router = express.Router();
+import rbac from "../middleware/rbac.js";
 
 router.post("/", validatePostUser, createUser);
 router.get("/", getUsers);

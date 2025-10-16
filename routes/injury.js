@@ -16,6 +16,7 @@ import {
 const router = express.Router();
 
 import jwtAuth from "../middleware/jwtauth.js";
+import rbac from "../middleware/rbac.js";
 
 router.post("/", validatePostInjury, jwtAuth, rbac("ADMIN"), createInjury);
 router.get("/", getInjuries, rbac("ADMIN"));
