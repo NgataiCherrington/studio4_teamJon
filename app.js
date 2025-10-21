@@ -1,5 +1,6 @@
 // Import the Express module
 import express from "express";
+import cors from "cors";
 
 // Import routes
 import authRoutes from "./routes/auth.js";
