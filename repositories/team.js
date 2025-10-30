@@ -5,7 +5,13 @@ class TeamRepository {
         return await prisma.team.create({ data });
       }
     
-      async findAll() {
+      async findAll(
+        filters = {},
+        sortBy = "id",
+        sortOrder = "asc",
+        page = 1,
+        pageSize = 10
+      ) {
           // Ensure the page and page size are positive integers
           page = parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
           pageSize = parseInt(pageSize, 10) > 0 ? parseInt(pageSize, 10) : 10;
