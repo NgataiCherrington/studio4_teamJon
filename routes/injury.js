@@ -19,9 +19,9 @@ import jwtAuth from "../middleware/jwtauth.js";
 import rbac from "../middleware/rbac.js";
 
 router.post("/", validatePostInjury, jwtAuth, rbac("ADMIN"), createInjury);
-router.get("/", getInjuries, rbac("ADMIN"));
-router.get("/:id", getInjuryID, rbac("ADMIN"));
-router.put("/:id", validatePutInjury, rbac("ADMIN"), updateInjury);
-router.delete("/:id", deleteInjury, rbac("ADMIN"));
+router.get("/", jwtAuth, getInjuries, rbac("ADMIN"));
+router.get("/:id", jwtAuth, getInjuryID, rbac("ADMIN"));
+router.put("/:id", jwtAuth, validatePutInjury, rbac("ADMIN"), updateInjury);
+router.delete("/:id", jwtAuth, deleteInjury, rbac("ADMIN"));
 
 export default router;

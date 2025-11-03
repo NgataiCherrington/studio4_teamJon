@@ -25,9 +25,9 @@ router.post(
     createWellness
 );
 
-router.get("/", getWellness);
-router.get("/:id", getWellnessID);
-router.put("/:id", validatePutWellness, updateWellness);
-router.delete("/:id", deleteWellness, rbac("ADMIN"));
+router.get("/", jwtAuth, getWellness);
+router.get("/:id", jwtAuth, getWellnessID);
+router.put("/:id", jwtAuth, validatePutWellness, updateWellness);
+router.delete("/:id", jwtAuth, deleteWellness, rbac("ADMIN"));
 
 export default router;
