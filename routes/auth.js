@@ -8,6 +8,9 @@ router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").post(logout);
 
+import jwtAuth from "../middleware/jwtauth.js";
+import rbac from "../middleware/rbac.js";
+
 router.get("/me", jwtAuth, async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
