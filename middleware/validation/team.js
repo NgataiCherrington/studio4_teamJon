@@ -9,7 +9,7 @@ const validatePostTeam = (req, res, next) => {
             "string.max": "teamName should have a maximum  length of {#limit}",
             "any.required": "teamName is required"
         }),
-        userId: Joi.string().uuid().messages({
+        userId: Joi.string().uuid().optional().messages({
               "string.base": "userId should be a string",
               "string.empty": "userId cannot be empty",
               "any.required": "userId is required",
@@ -41,7 +41,7 @@ const validatePutTeam = (req, res, next) => {
             "string.max": "teamName should have a maximum  length of {#limit}",
             "any.required": "teamName is required"
         }),
-        userId: Joi.string().uuid().required().messages({
+        userId: Joi.string().uuid().optional().messages({
               "string.base": "userId should be a string",
               "string.empty": "userId cannot be empty",
               "any.required": "userId is required",
