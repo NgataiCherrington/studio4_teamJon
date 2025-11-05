@@ -13,6 +13,9 @@ import jwtAuth from "../middleware/jwtauth.js";
 import rbac from "../middleware/rbac.js";
 
 router.get("/me", jwtAuth, async (req, res) => {
+  console.log("/me endpoint hit, req.user:", req.user);
+  console.log("looking for user with id:", req.user.id);
+
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
