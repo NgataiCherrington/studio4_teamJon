@@ -1,10 +1,9 @@
 import express from "express";
-import { prisma } from "../prismaClient.js";
+import prisma from "../prisma/client.js";
 
 import { register, login, logout } from "../controllers/auth.js";
 
 const router = express.Router();
-const prisma = new prisma();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
