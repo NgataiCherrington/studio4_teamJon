@@ -1,6 +1,6 @@
 import express from "express";
 import prisma from "../prisma/client.js";
-
+console.log("prisma client imported in auth routes", prisma);
 import { register, login, logout } from "../controllers/auth.js";
 
 const router = express.Router();
