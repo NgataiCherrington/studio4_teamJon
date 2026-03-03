@@ -19,7 +19,7 @@ const register = async (req, res) => {
     });
 
     if (user) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "Email already in use. Enter Another" });
     }
 
     // Generate a random salt to make the password hash unique
