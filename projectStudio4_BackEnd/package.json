@@ -1,0 +1,38 @@
+{
+  "type": "module",
+  "name": "introappdev-assignment-chernj1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/**/*.js --recursive --timeout 10000 --exit",
+    "dev": "nodemon app.js",
+    "env:copy": "cp .env.example env || copy .env.example .env",
+    "docker:run:dev": " docker run --name chernj1-assignment-api -e POSTGRES_PASSWORD=HelloWorld123 -p 5432:5432 -d postgres",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:reset": "npx prisma migrate reset --force",
+    "setup:env": "copy .env.example .env",
+    "prisma:seed-users-github": "node ./prisma/seeding/seed-users-github.js",
+    "prisma:seed-wellness-github": "node ./prisma/seeding/seed-wellness-github.js",
+    "prisma:seed-injury-github": "node ./prisma/seeding/seed-injury-github.js",
+    "prisma:seed-team-github": "node ./prisma/seeding/seed-team-github.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.17.0",
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^6.2.0",
+    "mocha": "^11.7.4",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.16.2",
+    "supertest": "^7.1.4"
+  }
+}

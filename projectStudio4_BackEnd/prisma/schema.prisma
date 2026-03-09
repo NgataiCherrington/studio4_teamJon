@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  NORMAL
+}
+
+model User {
+  id          String     @id @default(uuid())
+  firstName   String
+  lastName    String
+  phoneNumber String
+  dob         String
+  email       String     @unique
+  password    String
+  role        Role       @default(NORMAL)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Wellness    Wellness[]
+  Team        Team[]
+  Injury      Injury[]
+}
+
+model Wellness {
+  id             String   @id @default(uuid())
+  sleep          Int
+  stress         Int
+  fatigue        Int
+  muscleSoreness Int
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Team {
+  id        String   @id @default(uuid())
+  teamName  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Injury {
+  id           String   @id @default(uuid())
+  injuryCode   String
+  timeOfInjury DateTime
+  description  String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Blacklist {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
